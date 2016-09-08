@@ -30,7 +30,20 @@
          <!-- com.mysql.jdbc.Driver -->
          <property name="driverClassName" value="${driverClassName}"/>  
 	</bean>  
-	 		
+	<!-- 配置事务通知：（事务增强）-->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+		   <tx:method name="transfer" propagation="REQUIRED"  rollback-for="java.lang.Exception"/>
+		</tx:attributes>
+	</tx:advice>
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	<!-- 配置切面-->	
+	<aop:config>
+	 <aop:pointcut expression="execution(* com.account.AccountService+.*(..))" id="pc"/>
+	 <aop:advisor advice-ref="txAdvice" pointcut-ref="pc"/>
+	</aop:config> 
+	
+	
 	<bean id="accountDao" class="com.account.AccountDaoImpl">
 	     <property name="dataSource" ref="dataSource"></property>
 	</bean>

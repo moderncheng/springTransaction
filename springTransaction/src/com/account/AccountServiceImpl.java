@@ -8,6 +8,7 @@ public class AccountServiceImpl implements AccountService {
 	public void transfer(String in, String out, double money) {
 		// TODO Auto-generated method stub
 		    accountDao.outMoney(out, money);
+		    int i=2/0;
 			accountDao.inMoney(in, money);
 	}
 
